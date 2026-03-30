@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>生成ログ - 謎と怪異の掲示板</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="header">
+    <h1>謎と怪異の掲示板</h1>
+    <div class="subtitle">日本史の謎 / 世界史の謎 / 都市伝説・陰謀論 / 怖い話</div>
+  </div>
+  <div class="nav">
+    <a href="/?admin=true">スレッド一覧</a>
+    <a href="/log?admin=true" class="active">生成ログ</a>
+    <a href="/admin?admin=true">管理画面</a>
+  </div>
+  <div class="container">
+    <div class="board-title">記事生成ログ</div>
+    <div class="status-bar">
+      <span>プロセス実行記録（0:00〜23:30 毎時00分・30分に自動生成）</span>
+    </div>
+    <div class="log-content" id="logContent">読み込み中...</div>
+    <a href="/" class="back-link">&laquo; スレッド一覧に戻る</a>
+  </div>
+  <div class="footer">
+    謎と怪異の掲示板 &copy; 2024
+  </div>
+  <script>
+    fetch('/api/log')
+      .then(r => r.json())
+      .then(data => {
+        const el = document.getElementById('logContent');
+        if (data.log && data.log.trim()) {
+          el.textContent = data.log;
+          el.scrollTop = el.scrollHeight;
+        } else {
+          el.textContent = 'ログはまだありません。最初の記事が生成されるとここに記録されます。';
+        }
+      })
+      .catch(() => {
+        document.getElementById('logContent').textContent = 'ログの読み込みに失敗しました。';
+      });
+  </script>
+</body>
+</html>

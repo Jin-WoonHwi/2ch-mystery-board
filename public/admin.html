@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理画面 - 謎と怪異の掲示板</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="header">
+    <h1>謎と怪異の掲示板</h1>
+    <div class="subtitle">管理者ダッシュボード</div>
+  </div>
+  <div class="nav">
+    <a href="/?admin=true">スレッド一覧</a>
+    <a href="/log?admin=true">生成ログ</a>
+    <a href="/admin?admin=true" class="active">管理画面</a>
+  </div>
+  <div class="container">
+    <!-- アクセス拒否画面（非管理者用） -->
+    <div id="accessDenied" style="display:none;padding:60px 20px;text-align:center;">
+      <div style="font-size:48px;color:#800000;margin-bottom:16px;">403</div>
+      <div style="font-size:16px;color:#666;">アクセス権限がありません</div>
+      <a href="/" class="back-link" style="margin-top:16px;display:inline-block;">&laquo; トップページに戻る</a>
+    </div>
+
+    <!-- ダッシュボード本体 -->
+    <div id="dashboard" style="display:none;">
+      <!-- サマリーカード -->
+      <div class="dashboard-cards">
+        <div class="dashboard-card">
+          <div class="card-value" id="totalVisitors">-</div>
+          <div class="card-label">総訪問者数</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="card-value" id="todayVisitors">-</div>
+          <div class="card-label">本日の訪問者</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="card-value" id="totalPageViews">-</div>
+          <div class="card-label">総ページビュー</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="card-value" id="todayPageViews">-</div>
+          <div class="card-label">本日のPV</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="card-value" id="totalArticles">-</div>
+          <div class="card-label">総記事数</div>
+        </div>
+      </div>
+
+      <!-- 過去7日間のアクセス推移 -->
+      <div class="dashboard-section">
+        <div class="board-title">過去7日間のアクセス推移</div>
+        <div class="dashboard-panel" id="dailyTrend">
+          <div class="loading">読み込み中</div>
+        </div>
+      </div>
+
+      <!-- 人気記事ランキング -->
+      <div class="dashboard-section">
+        <div class="board-title">人気記事ランキング（PV順）</div>
+        <div class="dashboard-panel" id="popularArticles">
+          <div class="loading">読み込み中</div>
+        </div>
+      </div>
+
+      <!-- カテゴリ別記事数 -->
+      <div class="dashboard-section">
+        <div class="board-title">カテゴリ別記事数</div>
+        <div class="dashboard-panel" id="categoryStats">
+          <div class="loading">読み込み中</div>
+        </div>
+      </div>
+
+      <!-- 最近の生成ログ -->
+      <div class="dashboard-section">
+        <div class="board-title">最近の生成ログ</div>
+        <div class="log-content" id="recentLog" style="max-height:300px;">読み込み中...</div>
+      </div>
+
+      <div style="text-align:center;margin:16px 0;font-size:12px;color:#888;">60秒ごとに自動更新</div>
+    </div>
+  </div>
+  <div class="footer">
+    謎と怪異の掲示板 &copy; 2024
+  </div>
+  <script src="/admin.js"></script>
+</body>
+</html>

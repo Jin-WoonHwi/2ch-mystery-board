@@ -1,0 +1,14 @@
+{
+  "name": "2ch-mystery-board",
+  "version": "1.0.0",
+  "description": "2ch風オカルト・歴史ミステリー掲示板 - 自動記事生成",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "generate": "node -e \"const g=require('./lib/generator');const s=require('./lib/storage');(async()=>{const a=g.generateArticle();s.saveArticle(a);s.appendLog(a);console.log('Generated:',a.title)})()\""
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-cron": "^3.0.3"
+  }
+}

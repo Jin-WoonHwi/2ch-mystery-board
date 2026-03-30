@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>謎と怪異の掲示板</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="header">
+    <h1>謎と怪異の掲示板</h1>
+    <div class="subtitle">日本史の謎 / 世界史の謎 / 都市伝説・陰謀論 / 怖い話</div>
+  </div>
+  <div class="nav">
+    <a href="/" class="active">スレッド一覧</a>
+    <a href="/log?admin=true" class="admin-only" style="display:none;">生成ログ</a>
+    <a href="/admin?admin=true" class="admin-only" style="display:none;">管理画面</a>
+  </div>
+  <div class="container">
+    <div class="filter-bar">
+      <span style="font-size:12px;color:#666;margin-right:4px;">カテゴリ:</span>
+      <button class="filter-btn active" data-category="all">すべて</button>
+      <button class="filter-btn" data-category="日本史の謎">日本史の謎</button>
+      <button class="filter-btn" data-category="世界史の謎">世界史の謎</button>
+      <button class="filter-btn" data-category="都市伝説・陰謀論">都市伝説</button>
+      <button class="filter-btn" data-category="怖い話">怖い話</button>
+      <div style="flex:1"></div>
+      <button class="generate-btn admin-only" id="generateBtn" style="display:none;">記事を生成</button>
+    </div>
+    <div class="status-bar">
+      <span>スレッド数: <span class="count" id="threadCount">0</span></span>
+      <span class="admin-only" style="display:none;">次回自動生成: 毎時00分・30分</span>
+    </div>
+    <div class="board-title">スレッド一覧</div>
+    <div class="thread-list" id="threadList">
+      <div class="loading">読み込み中</div>
+    </div>
+  </div>
+  <div class="footer">
+    謎と怪異の掲示板 &copy; 2024
+  </div>
+  <script src="/script.js"></script>
+</body>
+</html>
