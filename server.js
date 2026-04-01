@@ -58,9 +58,9 @@ function isAdmin(req) {
 }
 
 // 手動記事生成（管理者のみ）
-app.post('/api/generate', (req, res) => {
+app.post('/api/generate', async (req, res) => {
   try {
-    const article = generateArticle();
+    const article = await generateArticle();
     saveArticle(article);
     appendLog(article);
     console.log(`[生成完了] ${article.title} (${article.category})`);
@@ -111,14 +111,14 @@ app.get('*', (req, res) => {
 
 // ===== cronスケジューラー =====
 // 毎時00分と30分に記事を自動生成（0:00〜23:30）
-cron.schedule('0,30 0-23 * * *', () => {
+cron.schedule('0,30 0-23 * * *', async () => {
   const now = new Date();
   const hour = now.getHours();
   const min = String(now.getMinutes()).padStart(2, '0');
   console.log(`[cron] ${hour}:${min} - 記事自動生成を開始...`);
 
   try {
-    const article = generateArticle();
+    const article = await generateArticle();
     saveArticle(article);
     appendLog(article);
     console.log(`[cron] 生成完了: ${article.title}`);
