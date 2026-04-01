@@ -59,16 +59,18 @@ function isAdmin(req) {
 
 // 手動記事生成（管理者のみ）
 app.post('/api/generate', (req, res) => {
-  try {
-    const article = generateArticle();
-    saveArticle(article);
-    appendLog(article);
-    console.log(`[生成完了] ${article.title} (${article.category})`);
-    res.json({ success: true, article: { id: article.id, title: article.title } });
-  } catch (err) {
-    console.error('[生成エラー]', err);
-    res.status(500).json({ success: false, error: err.message });
-  }
+  (async () => {
+    try {
+      const article = await generateArticle();
+      saveArticle(article);
+      appendLog(article);
+      console.log(`[生成完了] ${article.title} (${article.category})`);
+      res.json({ success: true, article: { id: article.id, title: article.title } });
+    } catch (err) {
+      console.error('[生成エラー]', err);
+      res.status(500).json({ success: false, error: err.message });
+    }
+  })();
 });
 
 // ログ取得
@@ -110,15 +112,28 @@ app.get('*', (req, res) => {
 });
 
 // ===== cronスケジューラー =====
-// 毎時00分と30分に記事を自動生成（0:00〜23:30）
-cron.schedule('0,30 0-23 * * *', () => {
+// 0:00〜23:00の間、30分ごとに記事を自動生成
+cron.schedule('0,30 0-22 * * *', async () => {
   const now = new Date();
   const hour = now.getHours();
   const min = String(now.getMinutes()).padStart(2, '0');
   console.log(`[cron] ${hour}:${min} - 記事自動生成を開始...`);
 
   try {
-    const article = generateArticle();
+    const article = await generateArticle();
+    saveArticle(article);
+    appendLog(article);
+    console.log(`[cron] 生成完了: ${article.title}`);
+  } catch (err) {
+    console.error(`[cron] 生成エラー:`, err);
+  }
+});
+
+cron.schedule('0 23 * * *', async () => {
+  const now = new Date();
+  console.log(`[cron] ${now.getHours()}:00 - 記事自動生成を開始...`);
+  try {
+    const article = await generateArticle();
     saveArticle(article);
     appendLog(article);
     console.log(`[cron] 生成完了: ${article.title}`);
@@ -146,7 +161,7 @@ app.listen(PORT, () => {
   console.log('  2ch風オカルト・歴史ミステリー掲示板');
   console.log('========================================');
   console.log(`  URL: http://localhost:${PORT}`);
-  console.log('  自動生成: 毎時00分・30分 (0:00〜23:30)');
+  console.log('  自動生成: 30分ごと (0:00〜23:00)');
   console.log('  手動生成: POST /api/generate');
   console.log('========================================');
   console.log('');
