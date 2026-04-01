@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "generate": "node -e \"const g=require('./lib/generator');const s=require('./lib/storage');(async()=>{const a=g.generateArticle();s.saveArticle(a);s.appendLog(a);console.log('Generated:',a.title)})()\""
+    "generate": "node -e \"const g=require('./lib/generator');const s=require('./lib/storage');(async()=>{const a=await g.generateArticle();s.saveArticle(a);s.appendLog(a);console.log('Generated:',a.title)})()\""
   },
   "engines": {
     "node": ">=18.0.0"
